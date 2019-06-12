@@ -1,25 +1,45 @@
 server:
- port: 7001
+ port: 8080
+mybatis:
+ mapper-locations: # 所有的mapper映射文件
+ - classpath:mapping/*.xml
+spring:
+ application:
+   name: risk-provider
+ profiles: beta
+ datasource:
+   type: com.alibaba.druid.pool.DruidDataSource # 配置当前要使用的数据源的操作类型
+   driver-class-name: com.mysql.jdbc.Driver # 配置MySQL的驱动程序类com.mysql.jdbc.Driver # 配置MySQL的驱动程序类
+   url: jdbc:mysql://localhost:3306/springcloud?serverTimezone=GMT%2B8 # 数据库连接地址
+   username: root # 数据库用户名
+   password: root # 数据库连接密码
+# security:
+#    user:
+#      name: admin  # 认证用户名
+#      password: enjoy  # 认证密码
+#      roles:
+#       - USER # 授权角色
+logging:
+  level:
+    cn.enjoy.mapper: debug
+
+
 eureka:
-  server:
-    eviction-interval-timer-in-ms: 10   #设置清理的间隔时间，而后这个时间使用的是毫秒单位（默认是60秒）
-    enable-self-preservation: false #设置为false表示关闭保护模式,如果设置为true，注册的服务下线了，则还在列表中存在
-  client:
-    fetch-registry: false
+  client: # 客户端进行Eureka注册的配置
     register-with-eureka: true
     service-url:
-        defaultZone: http://admin:admin@eureka1:7001/eureka
-        #defaultZone: http://admin:enjoy@eureka1:7001/eureka #,http://admin:enjoy@eureka2:7002/eureka,http://admin:enjoy@eureka3:7003/eureka
-  instance: # eureak实例定义
-    hostname: eureka1 # 定义 Eureka 实例所在的主机名称
-    instance-id: eureka1
+      defaultZone: http://admin:admin@eureka1:7001/eureka
+      #defaultZone: http://admin:admin@eureka1:7001/eureka #,http://admin:admin@eureka2:7002/eureka,http://admin:admin@eureka3:7003/eureka
+  instance:
+    instance-id: risk-provider
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 90 # 设置心跳的时间间隔（默认是30秒）
+    lease-expiration-duration-in-seconds: 500  # 如果现在超过了5秒的间隔（默认是90秒）
 
-spring:
-  security:
-    user:
-      name: admin
-      password: admin
-  application:
-      name: eureka1
-  profiles: beta
+info:
+  app.name: risk-provider
+  company.name: admin
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
+
+
