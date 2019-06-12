@@ -1,0 +1,6 @@
+spring:
+ application:
+   name: risk-provider
+ profiles: beta
+
+
