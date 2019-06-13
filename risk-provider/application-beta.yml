@@ -1,45 +1,23 @@
-server:
- port: 8080
-mybatis:
- mapper-locations: # 所有的mapper映射文件
- - classpath:mapping/*.xml
-spring:
- application:
-   name: risk-provider
- profiles: beta
- datasource:
-   type: com.alibaba.druid.pool.DruidDataSource # 配置当前要使用的数据源的操作类型
-   driver-class-name: com.mysql.jdbc.Driver # 配置MySQL的驱动程序类com.mysql.jdbc.Driver # 配置MySQL的驱动程序类
-   url: jdbc:mysql://localhost:3306/springcloud?serverTimezone=GMT%2B8 # 数据库连接地址
-   username: root # 数据库用户名
-   password: root # 数据库连接密码
-# security:
-#    user:
-#      name: admin  # 认证用户名
-#      password: enjoy  # 认证密码
-#      roles:
-#       - USER # 授权角色
-logging:
-  level:
-    cn.enjoy.mapper: debug
 
+## master 数据源配置
+master:
+  datasource:
+    url: jdbc:mysql://10.200.12.16:3306/car_insure?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=round
+    username: car_insure
+    password: car_insure
 
-eureka:
-  client: # 客户端进行Eureka注册的配置
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://admin:admin@eureka1:7001/eureka
-      #defaultZone: http://admin:admin@eureka1:7001/eureka #,http://admin:admin@eureka2:7002/eureka,http://admin:admin@eureka3:7003/eureka
-  instance:
-    instance-id: risk-provider
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 90 # 设置心跳的时间间隔（默认是30秒）
-    lease-expiration-duration-in-seconds: 500  # 如果现在超过了5秒的间隔（默认是90秒）
-
-info:
-  app.name: risk-provider
-  company.name: admin
-  build.artifactId: $project.artifactId$
-  build.modelVersion: $project.modelVersion$
-
-
+platform:
+  single:
+    login: true
+  web:
+    url: http://operation.cssrv.dataengine.com,http://10.200.12.12:8080,http://creditmanage.cssrv.dataengine.com
+insurance:
+#渠道编号
+  channelNum: B000003
+  #信贷核心接口
+  creditCore:
+    coreBaseUrl: http://operation02:6000/core/
+  #规则引擎地址
+  ruleUrl: http://operation01:8085/rule/rule/service/executeChannelIdRule
+  #产品工厂地址
+  productFactoryUrl: http://operation03:6001/pf/
