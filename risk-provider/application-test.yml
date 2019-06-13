@@ -1,0 +1,22 @@
+## master 数据源配置
+master:
+  datasource:
+    url: jdbc:mysql://operation05:3306/car_insure?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=round
+    username: car_insure
+    password: car_insure
+
+platform:
+  single:
+    login: true
+  web:
+    url: http://operation05:84
+insurance:
+#渠道编号
+  channelNum: B000003
+  #信贷核心接口
+  creditCore:
+    coreBaseUrl: http://operation03:6001/core/
+  #规则引擎地址
+  ruleUrl: http://operation01:8085/rule/rule/service/executeChannelIdRule
+  #产品工厂地址
+  productFactoryUrl: http://operation03:6001/pf/
